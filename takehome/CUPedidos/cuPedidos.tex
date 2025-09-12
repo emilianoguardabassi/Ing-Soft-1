@@ -1,0 +1,143 @@
+\documentclass[12pt,a4paper]{article}
+
+% Paquetes útiles
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{enumitem}   % Mejor control de listas
+\usepackage{geometry}   % Márgenes
+\usepackage{setspace}   % Espaciado
+\usepackage{parskip}    % Espacio entre párrafos
+\usepackage{hyperref} 
+
+% Configuración
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
+\setstretch{1.2}
+
+% Definir un entorno para Casos de Uso
+% \newcounter{caso}
+% \newenvironment{casodeuso}[1]{
+%   \refstepcounter{caso}
+%   \section*{Caso de Uso \#\thecaso: #1}
+% }{}
+
+\newenvironment{casodeuso}[2]{%
+  \section*{Caso de Uso \##1: #2}%
+  \addcontentsline{toc}{section}{Caso de Uso \##1: #2}%
+  \label{cu:#1}%
+}{}
+
+\begin{document}
+
+\title{Casos de uso pedidos}
+\author{Emiliano Guardabassi}
+\date{}
+\maketitle
+
+
+\textbf{Reglas del juego:} \href{https://drive.google.com/file/d/1FV6UZLrJWPkj3h-fCvlWORsK6dP490Zc/view}{\textbf{Link}}
+
+\begin{casodeuso}{4}{Iniciar partida}
+\textbf{Actor Primario:} Jugador.  
+
+\textbf{Precondición:} El número de jugadores de la sala es al menos el mínimo requerido por la configuración de partida.
+
+\textbf{Escenario exitoso principal:}
+\begin{enumerate}[label=\arabic*.]
+  \item El jugador presiona en el botón iniciar partida
+  \item El sistema pregunta si está seguro de iniciar la partida.
+  \item El jugador confirma la acción.
+  \item El sistema asigna los turnos y las cartas a los jugadores de acuerdo a las reglas.
+\end{enumerate}
+
+\textbf{Escenario alternativo:}
+\begin{enumerate}[label=\arabic*.]
+  \item[3a.] El jugador no confirma el inicio de partida.
+  \item[4a.] El sistema reinicia al estado original antes del caso de uso.
+\end{enumerate}
+\end{casodeuso}
+
+
+
+
+
+\begin{casodeuso}{9}{Jugar turno completo}
+\textbf{Actor Primario:} Jugador.  
+
+\textbf{Precondición:} El turno actual debe ser del jugador y el temporizador en su máxima capacidad.  
+
+\textbf{Escenario exitoso principal:}
+\begin{enumerate}[label=\arabic*.]
+  \item El jugador deja pasar el turno hasta que se agote el temporizador.
+  \item El sistema descarta una carta de la mano del jugador, levanta otra de la pila principal del mazo y pasa de turno.
+\end{enumerate}
+
+\textbf{Escenarios alternativos:}
+\begin{enumerate}[label=\arabic*.]
+  \item[1a.] El jugador juega una carta de evento.  
+  \item[2a.] El sistema aplica el efecto de la carta y la descarta.  
+  \item[3a.] El jugador elige si descarta más cartas de su mano.
+  \item[4a.] El sistema envía las cartas a la pila de descarte.
+  \item[5a.] El jugador elige de dónde reponer sus cartas hasta que tenga seis en mano.
+  \item[6a.] El sistema le asigna sus cartas y pasa de turno.
+  \vspace{1.5em} % un reglón y medio de espacio 
+  \item[1b.] El jugador juega un set de detectives completo.  
+  \item[2b.] El sistema asigna el set al frente del jugador y aplica los efectos del set de detective.  
+  \item[3b.] El jugador elige si descarta más cartas de su mano.
+  \item[4b.] El sistema envía las cartas a la pila de descarte.
+  \item[5b.] El jugador elige de dónde reponer sus cartas hasta que tenga seis en mano.
+  \item[6b.] El sistema le asigna sus cartas y pasa de turno.
+  \vspace{1.5em} 
+  \item[1c.] El jugador juega una carta de detectives de un set ya existente.  
+  \item[2c.] El sistema aplica los efectos del set de detective.  
+  \item[3c.] El jugador elige si descarta más cartas de su mano.
+  \item[4c.] El sistema envía las cartas a la pila de descarte.
+  \item[5c.] El jugador elige de dónde reponer sus cartas hasta que tenga seis en mano.
+  \item[6c.] El sistema le asigna sus cartas y pasa de turno.
+  \vspace{1.5em} 
+  \item[1d.] El jugador descarta X número de cartas.  
+  \item[2d.] El sistema las envía a la pila de descarte. 
+  \item[3d.] El jugador elige de dónde levantar X cartas. 
+  \item[4d.] El sistema concluye su turno. 
+\end{enumerate}
+
+\newpage
+
+\textbf{Escenario excepcional:}
+\begin{enumerate}[label=\arabic*.]
+  \item[1aa.] (Aplica a los escenarios alternativos 1a, 1b y 1c) Algún otro jugador juega una carta `Not So Fast'.
+  
+  \textbf{--} Caso de uso de `Not So Fast'.
+\end{enumerate}
+
+\end{casodeuso}
+
+
+
+
+\begin{casodeuso}{14}{Jugar carta \textit{`Not So Fast'}}
+\textbf{Actor Primario:} Jugador.  
+\textbf{Actor Secundario:} Otro jugador en su turno.  
+
+\textbf{Precondición:} El jugador debe tener al menos una carta de `Not So Fast' en su mano y otro jugador debe haber usado una carta con algún tipo de efecto.  
+
+\textbf{Escenario exitoso principal:}
+\begin{enumerate}[label=\arabic*.]
+  \item El jugador juega su carta de `Not So Fast'.
+  \item El sistema cancela la acción del efecto de la carta jugada más reciente.
+\end{enumerate}
+
+\textbf{Escenario excepcional:}
+\begin{enumerate}[label=\arabic*.]
+  \item[1aa.] Algún otro jugador juega una carta `Not So Fast'. \\
+  \textbf{--} Caso de uso de `Not So Fast'.
+\end{enumerate}
+
+% Aquí seguirías con escenarios alternativos y excepcionales...
+\end{casodeuso}
+\vspace{2cm}
+\begin{flushright}
+\textbf{Emiliano Guardabassi}
+\end{flushright}
+
+\end{document}

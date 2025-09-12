@@ -1,0 +1,84 @@
+\documentclass[12pt,a4paper]{article}
+
+% Paquetes recomendados
+\usepackage[utf8]{inputenc}   % Codificación de caracteres
+\usepackage[T1]{fontenc}      
+\usepackage[spanish]{babel}   % Idioma en español
+\usepackage{setspace}         % Espaciado
+\usepackage{geometry}         % Márgenes
+\usepackage{parskip}          % Espaciado entre párrafos
+\usepackage{hyperref} 
+
+% Configuración de la página
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
+\setstretch{1.2} % Interlineado
+
+% Datos del documento
+\title{\textbf{Alcance}}
+\author{Emiliano Guardabassi}
+\date{} % Sin fecha
+
+\begin{document}
+
+\maketitle
+
+\section*{Alcance del Proyecto}
+El objetivo de este proyecto es desarrollar un sistema que permita a los usuarios jugar una versión del juego de mesa
+\textit{Agatha Christie's Death on the cards} como aplicación web. Pudiendo soportar múltiples partidas multijugador en tiempo real.
+Las reglas están detalladas \href{https://drive.google.com/file/d/1FV6UZLrJWPkj3h-fCvlWORsK6dP490Zc/view}{aquí}.
+
+La aplicación web recibirá al usuario pidiendole una serie de datos para
+identificarlo durante la partida y establecer el orden de turnos acorde a
+las reglas. Estos datos serán:
+\begin{enumerate}
+    \item Avatar
+    \item Nombre
+    \item Fecha de cumpleaños
+\end{enumerate}
+Dichos datos no serán persistentes, es decir, no se almacenarán en una base de
+datos, sino que se mantendrán únicamente durante la sesión del usuario en la
+aplicación web. En caso de que el usuario desee volver a jugar, deberá ingresar
+nuevamente sus datos.
+
+Posteriormente, el usuario podrá optar por crear una nueva partida y ser el 
+\textbf{anfitrión} ó unirse a una ya existente. En caso de optar por crear 
+una nueva, el usuario deberá establecer una serie de parámetros para la misma, 
+los cuales serán:
+\begin{enumerate}
+    \item Nombre de la partida
+    \item Cantidad mínima de jugadores (2 - 6)
+    \item Cantidad máxima de jugadores (2 - 6)
+    \item Contraseña (opcional)
+    \item Temporizador de turno (10s - 120s ó 60s por defecto)
+\end{enumerate}
+Por otro lado, si el usuario decide unirse a una partida ya existente, deberá
+ingresar el nombre de la partida y, en caso de que la misma esté protegida por
+una contraseña, deberá ingresarla también. La aplicación web mostrará una lista
+de las partidas disponibles, incluyendo el nombre de la partida, la cantidad
+de jugadores actuales y la cantidad máxima de jugadores permitidos.
+
+Después de que un usuario crea o se une a una partida, será dirigido a una sala
+de espera. Solamente el \textbf{anfitrión} puede iniciar la partida. Es necesario
+que la cantidad de jugadores presentes alcance al menos el mínimo requerido
+(2 ó el establecido en la configuración de partida) para poder iniciar. Los
+participantes tienen la posibilidad de abandonar la sala de espera en cualquier 
+momento. Si el anfitrión decide salir de la sala, la partida se eliminará automáticamente.
+
+Cuando se inicia la partida, los jugadores son redirigidos automáticamente 
+al entorno de juego, donde se desarrollará la partida. Los jugadores participarán
+por turnos acorde a las reglas, cada uno limitado por el temporizador configurado. 
+Durante la partida, podrán interactuar mediante un \textbf{chat de texto}, 
+jugar cartas con distintos efectos según las reglas, y visualizar el estado 
+actual del juego. Los jugadores no pueden abandonar la partida en curso. 
+En caso de que un jugador no realice jugadas por 2 turnos consecutivos, se le 
+considerará \textbf{``inactivo''} y se le acortará el temporizador de turno a 
+10 segundos hasta que demuestre signos de actividad nuevamente, cuando se 
+restablecerá su temporizador original.
+
+
+\vspace{2cm}
+\begin{flushright}
+\textbf{Emiliano Guardabassi}
+\end{flushright}
+
+\end{document}
